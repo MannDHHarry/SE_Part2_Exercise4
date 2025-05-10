@@ -1,0 +1,48 @@
+﻿@model Exercise4.Controllers.ReportFormViewModel
+
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<h2>Top 5 Best-Selling Items</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Item Name</th>
+            <th>Total Quantity Sold</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.TopItems)
+        {
+            <tr>
+                <td>@item.ItemName</td>
+                <td>@item.TotalQuantity</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Customer Purchases (by Agent)</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Agent</th>
+            <th>Items</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model.CustomerPurchases)
+        {
+            <tr>
+                <td>@order.OrderID</td>
+                <td>@order.AgentName</td>
+                <td>@string.Join(", ", order.Items)</td>
+                <td>@order.Total.ToString("C")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -1,0 +1,56 @@
+﻿@model Exercise4.Models.OrderCreateViewModel
+
+@{
+    ViewData["Title"] = "Create Order";
+}
+
+<h1>Create New Order</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label>Agent</label>
+        <select asp-for="AgentID" class="form-control" asp-items="ViewBag.AgentID"></select>
+    </div>
+
+    <div class="form-group">
+        <label>Order Date</label>
+        <input asp-for="OrderDate" class="form-control" type="date" />
+    </div>
+
+    <hr />
+    <h4>Order Items</h4>
+
+    <div id="items">
+        <div class="item-row mb-2">
+            <select name="Items[0].ItemID" class="form-control mb-2" asp-items="ViewBag.ItemList"></select>
+            <input type="number" name="Items[0].Quantity" class="form-control mb-2" placeholder="Quantity" />
+            <input type="text" name="Items[0].UnitAmount" class="form-control mb-2" placeholder="Unit Amount" />
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-secondary mb-3" onclick="addItem()">Add More Items</button>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">Save Order</button>
+</form>
+
+@section Scripts {
+    <script>
+        let itemIndex = 1;
+        function addItem() {
+            const container = document.getElementById('items');
+            const newItem = `
+                <div class="item-row mb-2">
+                    <select name="Items[${itemIndex}].ItemID" class="form-control mb-2">
+                        @Html.Raw(Json.Serialize(ViewBag.ItemList))
+                    </select>
+                    <input type="number" name="Items[${itemIndex}].Quantity" class="form-control mb-2" placeholder="Quantity" />
+                    <input type="text" name="Items[${itemIndex}].UnitAmount" class="form-control mb-2" placeholder="Unit Amount" />
+                </div>`;
+            container.insertAdjacentHTML('beforeend', newItem);
+            itemIndex++;
+        }
+    </script>
+}
+
